@@ -1,0 +1,18 @@
+Notes:
+
+
+When the code is running on localhost, both recommendation methods works great! But, when the code is running on PythonAnywhere, the workday recommendation
+is not working because it is making too much API calls within one second. Therefore, I have added the time.sleep(1) to slow down the process.
+
+However, "import time" is a known bug within PyCharm as the import will not execute properly, and time.sleep() will not work. Therefore, I have only added the time.sleep()
+on PythonAnywhere but not in the version that I have submitted in github (Although I have the code in there, but commented out with the word "(python BUG)."
+
+
+
+
+Remarks:
+
+
+There are some little details in this program. For example, it will make sure that the user has filled in all the required fields. Then, when I am using the
+sunrise-sunset API, the conversion between UTC(the default return value) to the target location time, the potential offsets in date, and conversion from 12-hour to
+24-hour format(required by timezone API) was also a bit challenge in order to make sure everything is working great.
