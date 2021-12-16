@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+p, form{
+    font-size: 18px
+}
+hr {
+    border: 1px dashed black;
+}
+table, th, td {
+    border: 1px solid black;
+    text-align: center;
+    vertical-align: middle;
+}
+input[type=submit] {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 16px 32px;
+  text-decoration: none;
+  font-weight: bold;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+</style>
+<link rel="icon" href="data:,">
+<title>Virtual Meeting Planner</title> </head>
+<h1>Welcome to Virtual Meeting Planner</h1>
+<body>
+<h2>This is a conversion engine to plan out your virtual meetings across different time zone.</h2>
+<p>Simply enter your <b>current location</b>, <b>target location</b>, and <b>your availability in your current timezone</b>.<br>
+    The planner will then generate a list of time conversion and recommend a good meeting time for you and your participant in another timezone, based on your recommendation selection<br>
+    The location name can be a city name that you think is appropriate, such as "Seattle, WA" or "Beijing, China"</p>
+<hr>
+<p> </p>
+<form action="/" method="get">
+<label for="current location">Please enter your current location:</label>
+<input type="text" id="current location" name="current location" /><br/>
+<label for="target location">Please enter your target location to convert the time to:</label>
+<input type="text" name="target location" id="target location" /><br/>
+<label for="date">Please enter the date and time in the format of YYYY-MM-DD</label>
+<input type="text" id="date" name="date" /><br/>
+<label for="start time">Please enter the starting time of your availability in 24-hour format (format: HH:MM)</label>
+<input type="text" id="start time" name="start time" /><br/>
+<label for="end time">Please enter the ending time of your availability in 24-hour format (format: HH:MM)</label>
+<input type="text" id="end time" name="end time" /><br/>
+<p>Please select the desired recommendation type:</p>
+<input type="radio" id="workday schedule" name="recommendation_type" value="workday schedule" />
+<label for="workday schedule">workday schedule</label><br/>
+<input type="radio" id="sunrise and sunset" name="recommendation_type" value="sunrise and sunset" />
+<label for="sunrise and sunset">sunrise and sunset</label><br/>
+<p> </p>
+<input type="submit" value="Start the Planner" name="gobtn"/></form>
+
+
+{% if timeData %}
+{% if timeData[0]["base_location"] %}
+<h1>{{page_title}}</h1>
+<h3>Current Location: <u>{{current_location}}</u></h3>
+<h3>Target Location: <u>{{target_location}}</u></h3>
+<table>
+    <tr>
+        <th>"{{timeData[0]["base_location"]["requested_location"]}}" Time</th>
+        <th>"{{timeData[0]["target_location"]["requested_location"]}}" Time</th>
+        <th>Recommended</th>
+    </tr>
+    {% for item in timeData %}
+    <tr>
+        <td>{{item["base_location"]["datetime"]}}</td><td>{{item["target_location"]["datetime"]}}</td>
+        {% if item["goodtime"] %}
+            <<td><span>&#10003;</span></td>
+        {% else %}
+            <td><span>&#10540;</span></td>
+        {% endif %}
+    </tr>
+    {% endfor %}
+{% endif %}
+{% endif %}
+{% if missing %}
+    <h2>Please double check if you have filled out all the fields!</h2>
+{% endif %}
+
+</table>
+</body>
+</html>
